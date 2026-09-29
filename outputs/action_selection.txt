@@ -1,0 +1,15 @@
+=== Action Selection Demo ===
+
+Happy Path 1: Select lookup
+Selected action: lookup
+Arguments: {'query': 'What is the status of order A100?'}
+
+Happy Path 2: Select final answer
+Selected action: final_answer
+Arguments: {'answer': 'Answer based on observation: Order A100 is packed.'}
+
+Failure Path: Unsupported action
+Rejected: Unsupported action: delete_order
+
+Failure Path: Invalid arguments
+Rejected: Lookup action requires a non-empty query.

@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent
+configfile: pyproject.toml
+collecting ... collected 5 items
+
+tests/test_action_selection.py::test_select_lookup_action PASSED         [ 20%]
+tests/test_action_selection.py::test_select_final_answer_action PASSED   [ 40%]
+tests/test_action_selection.py::test_unsupported_action_is_rejected PASSED [ 60%]
+tests/test_action_selection.py::test_invalid_lookup_arguments_are_rejected PASSED [ 80%]
+tests/test_action_selection.py::test_action_rejected_for_completed_state PASSED [100%]
+
+============================== 5 passed in 0.04s ==============================
