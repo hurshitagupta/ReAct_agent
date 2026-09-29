@@ -41,3 +41,17 @@ def test_action_rejected_for_completed_state():
 
     with pytest.raises(ValueError, match="Action cannot be selected"):
         select_action(state)
+
+def test_tool_failure_selects_lookup_again():
+    state = ReactState(
+        question="What is the status of order A100?"
+    )
+
+    state.add_observation(
+        "Tool failure: Action 'lookup' is not available."
+    )
+
+    action, args = select_action(state)
+
+    assert action == "lookup"
+    assert args["query"] == state.question

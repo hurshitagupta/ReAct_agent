@@ -498,3 +498,107 @@ python termination.py
 ```bash
 pytest tests/test_termination.py -v
 ```
+---
+
+# Task 5 — Loop Trace
+
+## Objective
+
+This task implements the complete ReAct loop trace.
+
+The main goal is to make every step of the ReAct loop observable and reviewable.
+
+## Implementation
+
+The main ReAct loop is implemented using:
+
+```python
+run_react()
+```
+
+The function:
+
+1. Creates a `ReactState`
+2. Checks whether execution should terminate
+3. Selects the next action
+4. Executes the selected tool
+5. Stores the observation
+6. Records the step in the trace
+7. Continues until a final answer or stop condition is reached
+
+## Loop Trace
+
+Each step is stored as a dictionary inside the trace list.This makes the agent's decisions and results easy to inspect.
+
+## Happy Path
+
+For:
+
+```text
+What is the status of order A100?
+```
+
+the ReAct loop follows this flow:
+
+```text
+Question
+↓
+lookup
+↓
+Order A100 is packed.
+↓
+final_answer
+↓
+Answer based on observation: Order A100 is packed.
+```
+
+The trace records both the lookup step and the final-answer step.
+
+## Failure Path
+
+If the selected tool is not available, the failure is converted into an observation.
+
+This demonstrates controlled failure handling rather than allowing the loop to continue indefinitely.
+
+## Final Answer Route
+
+When a valid observation is available, the action selector chooses:
+
+```text
+final_answer
+```
+
+The answer is stored using the termination component and the state becomes:
+
+```text
+completed
+```
+
+The completed answer is then returned by the ReAct loop.
+
+## Guardrails
+
+The following guardrails are demonstrated:
+
+- **Step limit:** The ReAct loop cannot exceed `MAX_STEPS`.
+- **Timeout:** Tool execution uses the timeout implemented in Task 3.
+- **Retry:** Transient tool failures use capped retry handling from Task 3.
+- **Validation:** State, actions, arguments, observations, and final answers are validated.
+- **Failure handling:** Missing or failed tools become observations.
+- **Termination:** The loop stops on a final answer or maximum-step boundary.
+- **Traceability:** Each action, argument, observation, result, and status is stored in the trace.
+- **Secret hygiene:** No credentials or secrets are stored in source code.
+
+## Run the Program
+
+From the project root:
+
+```bash
+python react_loop.py
+```
+
+## Run Automated Tests
+
+```bash
+pytest tests/test_loop_trace.py -v
+```

@@ -1,0 +1,23 @@
+=== ReAct Loop Trace Demo ===
+
+Happy Path
+Attempt 1: success
+Observation: Order A100 is packed.
+Step 1 | Action: lookup | Status: observed
+Arguments: {'query': 'What is the status of order A100?'}
+Observation: Order A100 is packed.
+Step 2 | Action: final_answer | Status: completed
+Arguments: {'answer': 'Answer based on observation: Order A100 is packed.'}
+Result: Answer based on observation: Order A100 is packed.
+
+Final Answer: Answer based on observation: Order A100 is packed.
+
+Failure Path: Missing Tool
+Step 1 | Action: lookup | Status: tool_not_found
+Arguments: {'query': 'What is the status of order A100?'}
+Observation: Tool failure: Action 'lookup' is not available.
+Step 2 | Action: final_answer | Status: completed
+Arguments: {'answer': "Answer based on observation: Tool failure: Action 'lookup' is not available."}
+Result: Answer based on observation: Tool failure: Action 'lookup' is not available.
+
+Final Result: Answer based on observation: Tool failure: Action 'lookup' is not available.

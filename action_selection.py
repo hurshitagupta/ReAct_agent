@@ -31,6 +31,10 @@ def select_action(state: ReactState) -> tuple[str, dict[str, Any]]:
         action = "lookup"
         args = {"query": state.question}
 
+    elif state.observations[-1].startswith("Tool failure:"):
+        action = "lookup"
+        args = {"query": state.question}
+
     else:
         action = "final_answer"
         args = {"answer": f"Answer based on observation: {state.observations[-1]}"}
