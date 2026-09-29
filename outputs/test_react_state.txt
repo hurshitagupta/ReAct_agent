@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent
+configfile: pyproject.toml
+collecting ... collected 4 items
+
+tests/test_react_state.py::test_react_state_success PASSED               [ 25%]
+tests/test_react_state.py::test_empty_question_is_rejected PASSED        [ 50%]
+tests/test_react_state.py::test_empty_observation_is_rejected PASSED     [ 75%]
+tests/test_react_state.py::test_step_limit PASSED                        [100%]
+
+============================== 4 passed in 0.05s ==============================

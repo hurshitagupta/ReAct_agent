@@ -1,0 +1,18 @@
+=== ReAct State Demo ===
+
+Happy Path:
+Initial state:
+ReactState(question='What is the status of order A100?', step=0, observations=[], final_answer=None, status='running')
+
+State after observation:
+ReactState(question='What is the status of order A100?', step=1, observations=['Order A100 is packed.'], final_answer=None, status='running')
+
+Final state:
+ReactState(question='What is the status of order A100?', step=1, observations=['Order A100 is packed.'], final_answer='Order A100 is packed.', status='completed')
+
+Failure Path:
+Rejected: Question cannot be empty.
+
+Step Limit Demonstration:
+Stopped: Maximum ReAct step limit reached.
+Status: stopped
