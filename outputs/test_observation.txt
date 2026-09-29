@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Hurshita Gupta\OneDrive\Desktop\ReAct Agent
+configfile: pyproject.toml
+collecting ... collected 5 items
+
+tests/test_observation.py::test_successful_observation PASSED            [ 20%]
+tests/test_observation.py::test_tool_failure_becomes_observation PASSED  [ 40%]
+tests/test_observation.py::test_transient_failure_is_retried PASSED      [ 60%]
+tests/test_observation.py::test_tool_timeout_becomes_observation PASSED  [ 80%]
+tests/test_observation.py::test_invalid_arguments_are_rejected PASSED    [100%]
+
+============================== 5 passed in 1.67s ==============================

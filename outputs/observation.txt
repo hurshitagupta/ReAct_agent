@@ -1,0 +1,17 @@
+=== Observation Demo ===
+
+Happy Path
+Attempt 1: success
+Observation: Order A100 is packed.
+Stored observations: ['Order A100 is packed.']
+Current step: 1
+
+Failure Path
+Tool failure: Lookup query is required.
+Stored observations: ['Tool failure: Lookup query is required.']
+
+Retry Demonstration
+Attempt 1: transient failure - Temporary service failure
+Attempt 2: success
+Observation: Order A100 is packed.
+Stored observations: ['Order A100 is packed.']

@@ -223,3 +223,162 @@ python action_selection.py
 ```bash
 pytest tests/test_action_selection.py -v
 ```
+
+---
+
+# Task 3 — Observation
+
+## Objective
+
+This task implements observation handling in the ReAct control pattern.
+
+The observation component executes a tool, validates its result, and stores the result inside `ReactState`.
+
+It also ensures that tool failures are converted into observations instead of immediately crashing the ReAct flow.
+
+## Implementation
+
+The main function is:
+
+```python
+execute_observation()
+```
+
+It receives:
+
+- Current `ReactState`
+- Tool function
+- Tool arguments
+
+The tool is executed and its returned value is validated before being stored as an observation.
+
+Example:
+
+```python
+execute_observation(state, lookup_tool, {"query": state.question})
+```
+
+## Observation Validation
+
+The `validate_observation()` function ensures that every observation:
+
+- Is a string
+- Is not empty
+
+Invalid tool results are rejected and converted into failure observations.
+
+## Happy Path
+
+For:
+
+```text
+What is the status of order A100?
+```
+
+the lookup tool returns:
+
+```text
+Order A100 is packed.
+```
+
+The state is updated to contain:
+
+```text
+step = 1
+observations = ["Order A100 is packed."]
+```
+
+This demonstrates successful observation handling.
+
+## Failure Handling
+
+The assessment requires a tool failure to become an observation.
+
+For example, if the lookup tool receives an empty query:
+
+```python
+{"query": ""}
+```
+
+the tool raises an error.
+
+Instead of stopping the whole program, the error is converted into:
+
+```text
+Tool failure: Lookup query is required.
+```
+
+This message is stored in the ReAct state as an observation.
+
+This allows later steps in the ReAct loop to inspect the failure and either recover or stop transparently.
+
+## Retry Handling
+
+Transient failures are represented using:
+
+```python
+TransientToolError
+```
+
+Only this type of failure is retried.
+
+The retry limit is:
+
+```python
+MAX_RETRIES = 2
+```
+
+For example, if a tool temporarily fails on the first attempt and succeeds on the second attempt, the output shows:
+
+```text
+Attempt 1: transient failure
+Attempt 2: success
+```
+
+Permanent validation errors are not retried.
+
+## Timeout Handling
+
+Tool execution is wrapped with a timeout using:
+
+```python
+ThreadPoolExecutor
+```
+
+The configured timeout is:
+
+```python
+TOOL_TIMEOUT = 1.0
+```
+
+If a tool takes longer than the allowed timeout, the failure becomes an observation:
+
+```text
+Tool failure: Tool execution timed out.
+```
+
+## Guardrails
+
+The following guardrails are demonstrated in this task:
+
+- **Step limit:** Reuses the maximum step limit from `ReactState`.
+- **Timeout:** Tool calls use a fixed timeout.
+- **Retry:** Only transient failures are retried with a capped retry count.
+- **Validation:** Tool arguments and observations are validated.
+- **Failure handling:** Tool failures are stored as observations.
+- **Traceability:** Attempts, failures, and observations are printed.
+- **Secret hygiene:** No credentials or secrets are stored in source code.
+
+## Run the Program
+
+From the project root:
+
+```bash
+python observation.py
+```
+
+## Run Automated Tests
+
+```bash
+pytest tests/test_observation.py -v
+```
