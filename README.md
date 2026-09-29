@@ -382,3 +382,119 @@ python observation.py
 ```bash
 pytest tests/test_observation.py -v
 ```
+
+---
+
+# Task 4 — Termination
+
+## Objective
+
+This task implements the termination capability of the ReAct control pattern.
+
+The termination logic decides whether the ReAct loop should:
+
+- Continue execution
+- Stop because a final answer is available
+- Stop because the maximum step limit has been reached
+- Stop because the state is already marked as stopped
+
+This task reuses the `ReactState` and `MAX_STEPS` values implemented in Task 1.
+
+## Implementation
+
+The main termination check is implemented using:
+
+```python
+should_terminate(state)
+```
+
+This function checks the current ReAct state and returns:
+
+```python
+(True, reason)
+```
+
+when execution should stop, or:
+
+```python
+(False, "continue")
+```
+
+when the ReAct loop can continue.
+
+## Final Answer Route
+
+The assessment requires ReAct to have an explicit final-answer route.
+
+This is implemented using:
+
+```python
+terminate_with_answer()
+```
+
+The function stores the final answer in the state and changes the state status to:
+
+```text
+completed
+```
+
+After this, the termination check returns:
+
+```text
+Terminate: True
+Reason: final_answer
+```
+
+## Step Limit Termination
+
+The maximum number of ReAct steps is defined in Task 1 using:
+
+```python
+MAX_STEPS = 3
+```
+
+If the current step reaches this limit, `should_terminate()` stops the ReAct process.
+
+This prevents the ReAct loop from continuing indefinitely.
+
+## Continue Route
+
+If there is no final answer and the maximum step limit has not been reached, the function returns:
+
+```text
+Terminate: False
+Reason: continue
+```
+
+This tells the ReAct loop that another action can be performed.
+
+## Failure Path
+
+The implementation rejects an empty final answer.
+
+It also prevents a completed or stopped state from receiving another final answer.
+
+## Guardrails
+
+The following guardrails are demonstrated in this task:
+
+- **Step limit:** Execution stops when `MAX_STEPS` is reached.
+- **Validation:** Final answers must contain valid non-empty text.
+- **Failure handling:** Invalid termination attempts raise controlled errors.
+- **State boundary:** Completed or stopped states cannot receive another final answer.
+- **Traceability:** Termination returns a clear reason such as `final_answer`, `step_limit`, or `continue`.
+- **Secret hygiene:** No credentials or secrets are stored in source code.
+
+## Run the Program
+
+From the project root:
+
+```bash
+python termination.py
+```
+
+## Run Automated Tests
+
+```bash
+pytest tests/test_termination.py -v
+```

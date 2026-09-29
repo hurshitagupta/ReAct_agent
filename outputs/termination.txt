@@ -1,0 +1,15 @@
+=== Termination Demo ===
+
+Happy Path: Final Answer
+Final answer: Order A100 is packed.
+Terminate: True
+Reason: final_answer
+Status: completed
+
+Step Limit Path
+Terminate: True
+Reason: step_limit
+Status: stopped
+
+Failure Path: Invalid Final Answer
+Rejected: Final answer cannot be empty.
